@@ -1,9 +1,8 @@
-fastapi==0.100.0
-uvicorn==0.23.0
-langchain==0.0.244
-chromadb==0.4.3
-transformers==4.34.0
-sentence-transformers==2.2.2
-langchain-community==0.0.7
-langchain-core==0.0.10
-starlette==0.27.0  # FastAPI dependency
+fastapi[all] 
+uvicorn
+langchain
+chromadb
+transformers
+sentence-transformers
+langchain-community
+langchain-core 
