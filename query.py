@@ -1,93 +1,13 @@
-from langchain.vectorstores import Chroma
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.llms.huggingface_pipeline import HuggingFacePipeline
-from transformers import pipeline
-from langchain_core.prompts import PromptTemplate, ChatPromptTemplate 
-from langchain_community.llms.ollama import Ollama 
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
-# Define paths
-PERSIST_DIR = "./chroma_storage"
+text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=750,  # Customize chunk size
+        chunk_overlap=100,  # Optional overlap between chunks
+) 
 
-# Load the LM (local model)
-def load_local_model():
-
-    """Load a local HuggingFace model for reasoning."""
-    reasoning_pipeline = pipeline("text-generation", model="meta-llama/LLaMA-2-7b-hf", max_new_tokens=600, truncation=True)   # Use a model like GPT-2
-    llm = HuggingFacePipeline(pipeline=reasoning_pipeline)
-    return llm 
-
-
-## Just return the similar documents ## 
-def findSimilar(query, k=5, mediaSrc=None):            
-    
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    vector_store = Chroma(
-        collection_name="news_articles",
-        embedding_function=embeddings,
-        persist_directory=PERSIST_DIR,
-    )                                                                         
-    
-    if mediaSrc: 
-        base_retreiver = vector_store.as_retriever(
-            search_kwargs = {'filter': {"media_source":{"$in":mediaSrc}}}         
-        )
-        
-        results = base_retreiver.invoke(query)  
-    
-    else: 
-        results = vector_store.similarity_search(query, k=k) 
-        
-    return results 
-
-
-# Query and reasoning function # 
-def query_with_reasoning(query, k=3):
-    """Query ChromaDB, retrieve relevant documents, and generate reasoning."""
-    # Initialize embeddings and vector store
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    vector_store = Chroma(
-        collection_name="news_articles",
-        embedding_function=embeddings,
-        persist_directory=PERSIST_DIR,
-    )
-    
-    # Perform similarity search
-    results = vector_store.similarity_search(query, k=k)
-    
-    # Load the reasoning LM
-    llm = Ollama(model="llama2") 
-    
-    
-    document_texts = "\n".join(
-        [f"Document {i+1}: {doc.page_content[:250]}... (URL: {doc.metadata.get('url', 'Unknown')})"
-         for i, doc in enumerate(results)]
-    )
-    
-    prompt = ChatPromptTemplate.from_messages(
-    [
-        (
-            "system",
-            "You are a helpful assistant that answers the {query} using only the relevant news article from the following: {document_text}.", 
-        ),
-        ("human", "{document_text}"), 
-    ]
-    )
-    
-    chain = prompt | llm 
-    
-    response = chain.invoke(
-        
-        {
-            "query": query, 
-            "document_text": document_texts, 
-        }
-    ) 
-    
-    return results, response
-
-
-articleText = """ Former U.S. President and Republican Donald Trump made a forceful comeback as he won a second term in office, defeating Vice-President Kamala Harris, the Democratic nominee, to become the 47th President of the United States. Republicans took control of the Senate, increasing their tally to at least 52 of the chamber’s 100 seats.
+user_article = """
+Former U.S. President and Republican Donald Trump made a forceful comeback as he won a second term in office, defeating Vice-President Kamala Harris, the Democratic nominee, to become the 47th President of the United States. Republicans took control of the Senate, increasing their tally to at least 52 of the chamber’s 100 seats.
 
 That he had run a campaign of personal insults, misogynistic jibes, comments with racist overtones, committed felonies, instigated a mob which went on to attack the Capitol, and threatened allies abroad, was not enough to keep the majority of Americans from electing Mr. Trump their leader, again.
 
@@ -135,24 +55,13 @@ Speaking after Mr. Trump’s initial remarks, Vice-President-elect J.D. Vance ca
 
 Mr. Vance’s wife, Usha Vance, whose parents immigrated to the U.S. from India, is set to become the first Indian American Second Lady of the United States.
 
-In Washington, Ms. Harris was scheduled to make a speech at her alma mater Howard University on Wednesday afternoon."""
+In Washington, Ms. Harris was scheduled to make a speech at her alma mater Howard University on Wednesday afternoon.
+"""
 
 
-query = "Why are some criticisms of Trump?"     
+chunks = text_splitter.split_text(user_article) 
 
-docs = findSimilar(query, 5) 
+print(len(chunks)) 
+for chunk in chunks: 
+    print(chunk) 
 
-for x in docs:
-    print(x.page_content) 
-    print(x.metadata.get("url", "Unknown")) 
-
-
-# results, reasoning = query_with_reasoning(query)
-
-# Display results and reasoning
-# for i, result in enumerate(results):
-#     print(f"Result {i+1}:")
-#     print(f"Metadata: {result.metadata}")
-#     print("-" * 50)
-
-# print("\nReasoning:\n", reasoning)

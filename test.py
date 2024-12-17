@@ -3,7 +3,7 @@ import json
 from newspaper import Article 
 
 
-def save_article_with_url(url, article_num, text_folder="articles/dailyBeast", json_file="articles/dailyBeast/articles.json"):
+def save_article_with_url(url, article_num, text_folder="articles/alJazeera", json_file="articles/alJazeera/articles.json"):
     """
     Downloads an article, saves the text in a file, and updates a JSON file with the URL mapping.
     
@@ -47,14 +47,10 @@ def save_article_with_url(url, article_num, text_folder="articles/dailyBeast", j
 if __name__ == "__main__":
     # Example usage with a list of URLs
     urls = [
-        "https://www.thedailybeast.com/trump-finally-signs-transition-docs-but-shuns-major-detail/", 
-        "https://www.thedailybeast.com/jimmy-kimmel-explains-fatal-flaw-in-trumps-big-second-term-plan/", 
-        "https://www.thedailybeast.com/we-might-have-to-bring-tomatoes-back-from-space-as-trump-tariffs-could-raise-food-costs-in-us/", 
-        "https://www.thedailybeast.com/trump-kicks-off-tariff-spree-targeting-three-countries/", 
-        "https://www.thedailybeast.com/trumps-latest-product-hawk-encounters-big-problems/" 
+        "https://www.aljazeera.com/features/2024/12/7/the-palestinian-boy-who-wanted-to-be-like-ronaldo-killed-by-israel"
     ]
     
-    for i, url in enumerate(urls, start=5):
+    for i, url in enumerate(urls, start=41):  
         save_article_with_url(url, i)
 
 

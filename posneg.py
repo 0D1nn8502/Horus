@@ -9,6 +9,9 @@ import json
 DATA_PATH = "articles/foxNews"
 DATA_PATH2 = "articles/dailyBeast"
 DATA_PATH3 = "articles/theHindu" 
+DATA_PATH4 = "articles/theOnion" 
+DATA_PATH5 = "articles/alJazeera" 
+
 PERSIST_DIR = "./chroma_storage"
 
 def load_metadata(folder_path):
@@ -30,6 +33,10 @@ def loadMediaSource(folder_name):
         return "Daily Beast"
     elif "theHindu" in folder_name:
         return "The Hindu"
+    elif "theOnion" in folder_name: 
+        return "The Onion" 
+    elif "alJazeera" in folder_name: 
+        return "Al Jazeera" 
     else:
         return "Unknown"
     
@@ -37,17 +44,24 @@ def loadMediaSource(folder_name):
 def load_documents():
     """Load documents and enrich with URL metadata."""
     # Load metadata for both folders
-    fox_metadata = load_metadata(DATA_PATH)
+    fox_metadata = load_metadata(DATA_PATH) 
     beast_metadata = load_metadata(DATA_PATH2) 
     hindu_metadata = load_metadata(DATA_PATH3) 
+    onion_metadata = load_metadata(DATA_PATH4) 
+    jazeera_metadata = load_metadata(DATA_PATH5) 
 
     loader = DirectoryLoader(DATA_PATH, glob="*.txt")
     loader2 = DirectoryLoader(DATA_PATH2, glob="*.txt")
     loader3 = DirectoryLoader(DATA_PATH3, glob="*.txt") 
+    loader4 = DirectoryLoader(DATA_PATH4, glob="*.txt")
+    loader5 = DirectoryLoader(DATA_PATH5, glob="*.txt") 
+ 
     
     fox_documents = loader.load()
     beast_documents = loader2.load()
     hindu_documents = loader3.load() 
+    onion_documents = loader4.load() 
+    jazeera_documents = loader5.load() 
 
     def enrich_with_metadata(documents, metadata, media_source): 
         enriched_docs = []
@@ -62,15 +76,18 @@ def load_documents():
 
     enriched_fox_docs = enrich_with_metadata(fox_documents, fox_metadata, loadMediaSource(DATA_PATH)) 
     enriched_beast_docs = enrich_with_metadata(beast_documents, beast_metadata, loadMediaSource(DATA_PATH2))  
-    enriched_hindu_docs = enrich_with_metadata(hindu_documents, hindu_metadata, loadMediaSource(DATA_PATH3))   
+    enriched_hindu_docs = enrich_with_metadata(hindu_documents, hindu_metadata, loadMediaSource(DATA_PATH3))  
+    enriched_onion_docs = enrich_with_metadata(onion_documents, onion_metadata, loadMediaSource(DATA_PATH4))  
+    enriched_jazeera_docs = enrich_with_metadata(jazeera_documents, jazeera_metadata, loadMediaSource(DATA_PATH5)) 
 
-    return enriched_fox_docs + enriched_beast_docs + enriched_hindu_docs 
+    return enriched_fox_docs + enriched_beast_docs + enriched_hindu_docs + enriched_onion_docs + enriched_jazeera_docs 
+
 
 def split_documents(documents):
     """Split documents into smaller chunks while retaining metadata."""
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,  # Customize chunk size
-        chunk_overlap=50,  # Optional overlap between chunks
+        chunk_size=750,  # Customize chunk size
+        chunk_overlap=100,  # Optional overlap between chunks
     )
     split_docs = []
     for doc in documents:
@@ -83,6 +100,7 @@ def split_documents(documents):
             )
             
     return split_docs
+
 
 def store_embeddings_in_chromadb(split_docs):
     """Generate embeddings for chunks and store them in ChromaDB."""

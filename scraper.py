@@ -1,17 +1,19 @@
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.llms.ollama import Ollama
+from langchain_ollama.llms import OllamaLLM 
 from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 
 # Define paths
 PERSIST_DIR = "./chroma_storage"
 
 # Step 1: Split text into chunks
-def split_into_chunks(text, chunk_size=500, overlap=50):
+def split_into_chunks(text, chunk_size=1500, overlap=200):
     """Split the input text into chunks."""
     splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=overlap)
     return splitter.split_text(text)
+
+
 
 # Step 2: Perform similarity search directly
 def similarity_search_with_reasoning(user_text, k=3):
@@ -41,13 +43,13 @@ def similarity_search_with_reasoning(user_text, k=3):
          for i, doc in enumerate(all_results[:k])]  # Top k results only
     )
 
-    llm = Ollama(model="llama2")
+    llm = OllamaLLM(model="llama2")
 
     prompt = ChatPromptTemplate.from_messages(
         [
             (
                 "system",
-                "You are a helpful assistant that answers the query '{query}' using only the relevant news articles: {document_text}.",
+                "You are a helpful assistant that answers the query '{query}' using only the relevant news articles: {document_text}. Ignore the not relevant ones.", 
             ),
             ("human", "{document_text}"),
         ]
@@ -62,7 +64,34 @@ def similarity_search_with_reasoning(user_text, k=3):
         }
     )
 
-    return all_results[:k], response
+    return all_results[:k], response 
+
+
+
+def similaritySearch(user_text, k=1):
+     # Split user article into chunks
+    text_chunks = split_into_chunks(user_text)
+
+    # Generate embeddings for the input text
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+    # Initialize the ChromaDB vector store
+    vector_store = Chroma(
+        collection_name="news_articles",
+        embedding_function=embeddings,
+        persist_directory=PERSIST_DIR,
+    )
+
+    all_metadata = []  # Store metadata of results
+    for chunk in text_chunks:
+        results = vector_store.similarity_search(chunk, k=k)
+        
+        # Extract metadata from each result
+        for result in results:
+            all_metadata.append(result.metadata)  # Add metadata (e.g., URL) to the list
+
+    return all_metadata  # Return all collected metadata
+    
 
 # Example usage
 user_article = """
@@ -117,13 +146,13 @@ Mr. Vance’s wife, Usha Vance, whose parents immigrated to the U.S. from India,
 In Washington, Ms. Harris was scheduled to make a speech at her alma mater Howard University on Wednesday afternoon.
 """
 
-results, reasoning = similarity_search_with_reasoning(user_article)
+# results, reasoning = similarity_search_with_reasoning(user_article)
 
-# Display results and reasoning
-print("Similarity Search Results:")
-for i, result in enumerate(results):
-    print(f"Result {i+1}:") 
-    print(f"Metadata: {result.metadata}")
-    print("-" * 50)
+# # Display results and reasoning
+# print("Similarity Search Results:")
+# for i, result in enumerate(results):
+#     print(f"Result {i+1}:") 
+#     print(f"Metadata: {result.metadata}")
+#     print("-" * 50)
 
-print("\nGenerated Reasoning:\n", reasoning)
+# print("\nGenerated Reasoning:\n", reasoning)

@@ -1,0 +1,67 @@
+The Facebook and Instagram owner says its defences were able to prevent AI-driven misinformation operations from gaining an online foothold.
+
+Despite fears that artificial intelligence (AI) could influence the outcome of elections around the world, the United States technology giant Meta said it detected little impact across its platforms this year.
+
+That was in part due to defensive measures designed to prevent coordinated networks of accounts, or bots, from grabbing attention on Facebook, Instagram and Threads, Meta president of global affairs Nick Clegg told reporters on Tuesday.
+
+“I don’t think the use of generative AI was a particularly effective tool for them to evade our trip wires,” Clegg said of actors behind coordinated disinformation campaigns.
+
+In 2024, Meta says it ran several election operations centres around the world to monitor content issues, including during elections in the US, Bangladesh, Brazil, France, India, Indonesia, Mexico, Pakistan, South Africa, the United Kingdom and the European Union.
+
+Most of the covert influence operations it has disrupted in recent years were carried out by actors from Russia, Iran and China, Clegg said, adding that Meta took down about 20 “covert influence operations” on its platform this year.
+
+Advertisement
+
+Russia was the number one source of those operations, with 39 networks disrupted in total since 2017, followed by Iran with 31, and China with 11.
+
+Overall, the volume of AI-generated misinformation was low and Meta was able to quickly label or remove the content, Clegg said.
+
+That was despite 2024 being the biggest election year ever, with some 2 billion people estimated to have gone to the polls around the world, he noted.
+
+“People were understandably concerned about the potential impact that generative AI would have on elections during the course of this year,” Clegg told journalists.
+
+In a statement, he said that “any such impact was modest and limited in scope”.
+
+AI content, such as deepfake videos and audio of political candidates, was quickly exposed and failed to fool public opinion, he added.
+
+In the month leading up to Election Day in the US, Meta said it rejected 590,000 requests to generate images of President Joe Biden, then-Republican candidate Donald Trump and his running mate, JD Vance, Vice President Kamala Harris and Governor Tim Walz.
+
+In an article in The Conversation, titled The apocalypse that wasn’t, Harvard academics Bruce Schneier and Nathan Sanders wrote: “There was AI-created misinformation and propaganda, even though it was not as catastrophic as feared.”
+
+However, Clegg and others have warned that disinformation has moved to social media and messaging websites not owned by Meta, especially TikTok, where some studies have found evidence of fake AI-generated videos featuring politically related misinformation.
+
+Public concerns
+
+Advertisement
+
+In a Pew survey of Americans earlier this year, nearly eight times as many respondents expected AI to be used for mostly bad purposes in the 2024 election as those who thought it would be used mostly for good.
+
+In October, Biden rolled out new plans to harness AI for national security as the global race to innovate the technology accelerates.
+
+Biden outlined the strategy in a first-ever AI-focused national security memorandum (NSM) on Thursday, calling for the government to stay at the forefront of “safe, secure and trustworthy” AI development.
+
+Meta has itself been the source of public complaints on various fronts, caught between accusations of censorship and the failure to prevent online abuses.
+
+Earlier this year, Human Rights Watch accused Meta of silencing pro-Palestine voices amid increased social media censorship since October 7.
+
+Meta says its platforms were mostly used for positive purposes in 2024, to steer people to legitimate websites with information about candidates and how to vote.
+
+While it said it allows people on its platforms to ask questions or raise concerns about election processes, “we do not allow claims or speculation about election-related corruption, irregularities, or bias when combined with a signal that content is threatening violence”.
+
+Clegg said the company was still feeling the pushback from its efforts to police its platforms during the COVID-19 pandemic, resulting in some content being mistakenly removed.
+
+“We feel we probably overdid it a bit,” he said. “While we’ve been really focusing on reducing prevalence of bad content, I think we also want to redouble our efforts to improve the precision and accuracy with which we act on our rules.”
+
+Advertisement
+
+Republican concerns
+
+Some Republican lawmakers in the US have questioned what they say is censorship of certain viewpoints on social media. President-elect Donald Trump has been especially critical, accusing its platforms of censoring conservative viewpoints.
+
+In an August letter to the US House of Representatives Judiciary Committee, Meta CEO Mark Zuckerberg said he regretted some content take-downs the company made in response to pressure from the Biden administration.
+
+In Clegg’s news briefing, he said Zuckerberg hoped to help shape President-elect Donald Trump’s administration on tech policy, including AI.
+
+Clegg said he was not privy to whether Zuckerberg and Trump discussed the tech platform’s content moderation policies when Zuckerberg was invited to Trump’s Florida resort last week.
+
+“Mark is very keen to play an active role in the debates that any administration needs to have about maintaining America’s leadership in the technological sphere … and particularly the pivotal role that AI will play in that scenario,” he said.
